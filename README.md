@@ -1,2 +1,6 @@
 # hackyourportfolio2023
-Major League Hacking's Hack Your Portfolio Hackathon
+
+Welcome to our project!
+
+You should install Ursina before running this project:
+pip install ursina
