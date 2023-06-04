@@ -1,7 +1,7 @@
 import cv2
 import numpy as np
 class Gallery:
-    def __init__(self, img_path1='cat.jpg', img_path2='cat.jpg', img_path3='cat.jpg',img_path4='cat.jpg'):
+    def __init__(self, img_path1='images/cmu.jpeg', img_path2='images/cmu.jpeg', img_path3='images/cmu.jpeg',img_path4='images/cmu.jpeg'):
         # self.floor_color = (0xFF, 0xA2, 0xAF)
         self.floor_color = (0x72, 0x7c, 0xA9)
         self.roof_color = (0x90, 0xB8, 0x17)
@@ -119,6 +119,6 @@ class Gallery:
     def cv_save_image(self):
         cv2.imwrite('gallery.jpg', self.plot_gallery())
 # Display the resulting image
-g = Gallery('cat.jpg', 'cat.jpg','cat.jpg', 'cat.jpg')
+g = Gallery()
 g.cv_save_image()
-g.cv_display()
+# g.cv_display()

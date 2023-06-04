@@ -84,7 +84,7 @@ def redrawAll(app, canvas):
         canvas.create_text(70, 40, text='Back to Menu', font='Helvetica 12', fill='#f0f0f0')
 
         # grass
-        canvas.create_rectangle(175, 105, 785, 615, fill='#17B890', outline='#7043EB', width=5)
+        canvas.create_rectangle(177, 107, 784, 614, fill='#AFA2FF', outline='#7043EB', width=5)
         canvas.create_rectangle(180, 110, 780, 610, fill='#17B890', outline='#17B890')
         # path
         canvas.create_rectangle(460, 450, 500, 612, fill='#E6CA97', outline='#E6CA97')
@@ -130,7 +130,7 @@ def redrawAll(app, canvas):
 
 
     elif app.state == "MENU":
-        canvas.create_rectangle(175, 105, 785, 615, fill='#AFA2FF', outline='#7043EB', width=5)
+        canvas.create_rectangle(177, 107, 784, 614, fill='#AFA2FF', outline='#7043EB', width=5)
 
         canvas.create_text(485, 225, text="'U'niverse", font="Helvetica 60 bold",
                            fill="#5A5A5A")
@@ -197,7 +197,7 @@ def redrawAll(app, canvas):
         canvas.create_text(830, 380, text='File 4', font='Helvetica 13', fill='#f0f0f0')
 
     elif app.state == "VIEW-GALLERY":
-        canvas.create_rectangle(175, 105, 785, 615, fill='#AFA2FF', outline='#7043EB', width=5)
+        canvas.create_rectangle(177, 107, 784, 614, fill='#AFA2FF', outline='#7043EB', width=5)
         # back to menu
         canvas.create_rectangle(20, 20, 120, 60, fill='#7043EB', outline='#7043EB')
         canvas.create_text(70, 40, text='Back to Menu', font='Helvetica 12', fill='#f0f0f0')
@@ -206,8 +206,17 @@ def redrawAll(app, canvas):
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
 
+        # gallery
+        image1 = Image.open("default.jpg")
+        test = ImageTk.PhotoImage(image1)
+
+        label1 = Label(image=test, bg='#7043EB')
+        label1.image = test
+        # Position image
+        label1.place(x=180, y=110)
+
     elif app.state == "VIEW-LIBRARY":
-        canvas.create_rectangle(175, 105, 785, 615, fill='#AFA2FF', outline='#7043EB', width=5)
+        canvas.create_rectangle(177, 107, 784, 614, fill='#AFA2FF', outline='#7043EB', width=5)
         # back to menu
         canvas.create_rectangle(20, 20, 120, 60, fill='#7043EB', outline='#7043EB')
         canvas.create_text(70, 40, text='Back to Menu', font='Helvetica 12', fill='#f0f0f0')
@@ -217,6 +226,8 @@ def redrawAll(app, canvas):
 
     else:
         pass
+
+
     
     # canvas.pack()
     # img = ImageTk.PhotoImage(Image.open("images/brownie-pixelart-2.png"))
@@ -303,6 +314,7 @@ def get_image():
 
 def timerFired(app):
     # print(f"x: {app.player.x}, y: {app.player.y}\n")
+    print(f"state: {app.state}")
     app.time += 4
     if (app.player.x >= 210 and app.player.x <= 390
         and app.player.y >= 180 and app.player.y <= 320):
