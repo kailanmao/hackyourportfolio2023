@@ -115,7 +115,8 @@ def appStarted(app):
     # test = ImageTk.PhotoImage(image1)
     # app.label1 = Label(image=test, bg='#7043EB')
 
-    app.img = ImageTk.PhotoImage(Image.open("default.jpg"))
+    app.gallery = ImageTk.PhotoImage(Image.open("default.jpg"))
+    app.library = ImageTk.PhotoImage(Image.open("library.png").resize((600,500)))
     pass
 
 
@@ -254,7 +255,7 @@ def redrawAll(app, canvas):
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
         
-        canvas.create_image(180,110, image=app.img, anchor=NW)
+        canvas.create_image(180,110, image=app.gallery, anchor=NW)
 
         if app.image1clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
@@ -267,9 +268,6 @@ def redrawAll(app, canvas):
         elif app.image4clicked:
             pass
 
-
-
-
         
 
 
@@ -281,6 +279,8 @@ def redrawAll(app, canvas):
 
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
+        
+        canvas.create_image(180,110, image=app.library, anchor=NW)
 
     else:
         pass
@@ -289,6 +289,7 @@ def redrawAll(app, canvas):
 
 
 def mousePressed(app, event):
+    print(f"x:{event.x}, y: {event.y}\n")
     if app.state == "MENU":  
         # view button
         if event.x >= 400 and event.x <= 560 and event.y >= 320 and event.y <= 400:
@@ -378,8 +379,7 @@ def timerFired(app):
                 app.portfolioDone = True
                 g = Gallery(app.image1, app.image2, app.image3, app.image4)
                 g.cv_save_image()
-                app.img = ImageTk.PhotoImage(Image.open("gallery.jpg"))
-                # app.img = ImageTk.PhotoImage(Image.open("gallery.jpg").resize((100,100)))
+                app.gallery = ImageTk.PhotoImage(Image.open("gallery.jpg"))
                 
 
     if (app.player.x >= 210 and app.player.x <= 390
