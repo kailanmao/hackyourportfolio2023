@@ -136,7 +136,7 @@ def redrawAll(app, canvas):
                            fill="#5A5A5A")
         canvas.create_text(480, 220, text="'U'niverse", font="Helvetica 60 bold",
                            fill="#f0f0f0")
-        canvas.create_text(app.width/2, 280, text='Create and explore your very own portfolio!',
+        canvas.create_text(app.width/2, 280, text="Revolutionary way of showing your life highlights. It's all about U!",
                            font='Helvetica 20', fill='#7043eb')
         
         # view
