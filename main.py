@@ -73,9 +73,9 @@ def get_image():
     return file_path
 
 
-def center_crop(image, name, fixed_height = 500, crop_width = 600):
-        image = cv2.imread(image)
-
+def center_crop(image_path, name, fixed_height = 500, crop_width = 600):
+        image = cv2.imread(image_path)
+        
         # Calculate the scaling factor to resize the image
         scale_factor = fixed_height / image.shape[0]
 
@@ -258,7 +258,10 @@ def redrawAll(app, canvas):
 
         if app.image1clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            canvas.create_image(180,110, image=center_crop(app.image1, "image1"))
+            center_crop(app.image1, "image1.jpg")
+            image = Image.open("image1.jpg")
+            canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
+            # canvas.create_image(480,360, image=app.img)
             pass
         elif  app.image2clicked:
             pass
