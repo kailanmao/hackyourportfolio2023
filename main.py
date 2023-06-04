@@ -4,6 +4,7 @@ from cmu_112_graphics import *
 from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import filedialog
+from gallery import *
 
 class person(object):
     def __init__(self, x, y):
@@ -56,6 +57,19 @@ class person(object):
         #                         fill='#A1E3FF', outline='#A1E3FF')
 
 
+def get_image():
+    # Open file dialog to select image
+    file_path = filedialog.askopenfilename()
+    
+    # Load the selected image
+    # image = Image.open(file_path)
+    
+    # Create a Tkinter-compatible image
+    # image_tk = ImageTk.PhotoImage(image)
+    
+    # Update the image label
+    return file_path
+
 
 
 def appStarted(app):
@@ -65,6 +79,7 @@ def appStarted(app):
     app.timerDelay = 120
     app.nearGallery = False
     app.nearLibrary = False
+    app.portfolioDone = False
 
     app.image1 = ''
     app.image2 = ''
@@ -203,6 +218,9 @@ def redrawAll(app, canvas):
         canvas.create_text(830, 380, text='File 4', font='Helvetica 13', fill='#f0f0f0')
 
     elif app.state == "VIEW-GALLERY":
+
+        
+
         canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
         # back to menu
         canvas.create_rectangle(20, 20, 120, 60, fill='#7043EB', outline='#7043EB')
@@ -212,7 +230,10 @@ def redrawAll(app, canvas):
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
         
-        canvas.create_image(180,110,image=app.img, anchor=NW)
+        canvas.create_image(180,110, image=app.img, anchor=NW)
+
+
+
 
         
 
@@ -297,25 +318,23 @@ def keyPressed(app, event):
 
 
 
-def get_image():
-    # Open file dialog to select image
-    file_path = filedialog.askopenfilename()
-    
-    # Load the selected image
-    # image = Image.open(file_path)
-    
-    # Create a Tkinter-compatible image
-    # image_tk = ImageTk.PhotoImage(image)
-    
-    # Update the image label
-    return file_path
-
-
 
 def timerFired(app):
     # print(f"x: {app.player.x}, y: {app.player.y}\n")
     # print(f"state: {app.state}")
     app.time += 1
+
+    if app.state == "VIEW-GALLERY":
+        # see if user has entered their images
+        print(f"{app.image1}\n")
+        if app.portfolioDone == False:
+            if (app.image1 != '' and app.image2 != '' and app.image3 != '' and app.image4 != ''):
+                app.portfolioDone = True
+                g = Gallery(app.image1, app.image2, app.image3, app.image4)
+                g.cv_save_image()
+                app.img = ImageTk.PhotoImage(Image.open("gallery.jpg"))
+                # app.img = ImageTk.PhotoImage(Image.open("gallery.jpg").resize((100,100)))
+                
 
     if (app.player.x >= 210 and app.player.x <= 390
         and app.player.y >= 180 and app.player.y <= 320):
