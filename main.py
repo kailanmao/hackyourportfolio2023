@@ -270,7 +270,6 @@ def keyPressed(app, event):
     elif app.state == "VIEW-GALLERY":
         if event.key == 'Space':
             app.state = "VIEW-OUTSIDE"
-            app.label1.destroy()
     elif app.state == "VIEW-OUTSIDE":
         if event.key == "Up":
             if app.player.y > 125:
@@ -311,19 +310,19 @@ def get_image():
 
 def timerFired(app):
     # print(f"x: {app.player.x}, y: {app.player.y}\n")
-    print(f"state: {app.state}")
+    # print(f"state: {app.state}")
     app.time += 4
 
-    if app.state == "VIEW-GALLERY":
-        # gallery
-        image1 = Image.open("default.jpg")
-        test = ImageTk.PhotoImage(image1)
+    # gallery
+    image1 = Image.open("default.jpg")
+    test = ImageTk.PhotoImage(image1)
 
-        app.label1 = Label(image=test, bg='#7043EB')
-        app.label1.image = test
-        # Position image
-        app.label1.place(x=180, y=110)
-    else:
+    app.label1 = Label(image=test, bg='#7043EB')
+    app.label1.image = test
+    # Position image
+    app.label1.place(x=180, y=110)
+
+    if app.state != "VIEW-GALLERY":
         app.label1.destroy()
 
     if (app.player.x >= 210 and app.player.x <= 390
