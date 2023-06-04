@@ -70,6 +70,10 @@ def appStarted(app):
     app.image2 = ''
     app.image3 = ''
     app.image4 = ''
+
+    image1 = Image.open("default.jpg")
+    test = ImageTk.PhotoImage(image1)
+    app.label1 = Label(image=test, bg='#7043EB')
     pass
 
 
@@ -206,14 +210,8 @@ def redrawAll(app, canvas):
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
 
-        # gallery
-        image1 = Image.open("default.jpg")
-        test = ImageTk.PhotoImage(image1)
+        
 
-        label1 = Label(image=test, bg='#7043EB')
-        label1.image = test
-        # Position image
-        label1.place(x=180, y=110)
 
     elif app.state == "VIEW-LIBRARY":
         canvas.create_rectangle(177, 107, 784, 614, fill='#AFA2FF', outline='#7043EB', width=5)
@@ -267,13 +265,12 @@ def mousePressed(app, event):
 
 def keyPressed(app, event):
     if app.state == "VIEW-LIBRARY":
-        # print("in\n")
         if event.key == 'Space':
-            # print("double in\n")
             app.state = "VIEW-OUTSIDE"
     elif app.state == "VIEW-GALLERY":
         if event.key == 'Space':
             app.state = "VIEW-OUTSIDE"
+            app.label1.destroy()
     elif app.state == "VIEW-OUTSIDE":
         if event.key == "Up":
             if app.player.y > 125:
@@ -316,6 +313,19 @@ def timerFired(app):
     # print(f"x: {app.player.x}, y: {app.player.y}\n")
     print(f"state: {app.state}")
     app.time += 4
+
+    if app.state == "VIEW-GALLERY":
+        # gallery
+        image1 = Image.open("default.jpg")
+        test = ImageTk.PhotoImage(image1)
+
+        app.label1 = Label(image=test, bg='#7043EB')
+        app.label1.image = test
+        # Position image
+        app.label1.place(x=180, y=110)
+    else:
+        app.label1.destroy()
+
     if (app.player.x >= 210 and app.player.x <= 390
         and app.player.y >= 180 and app.player.y <= 320):
         app.nearGallery = True
