@@ -5,6 +5,8 @@ from tkinter import *
 from PIL import Image, ImageTk
 from tkinter import filedialog
 from gallery import *
+import cv2
+import numpy as np
 
 class person(object):
     def __init__(self, x, y):
@@ -71,6 +73,24 @@ def get_image():
     return file_path
 
 
+def center_crop(image, name, fixed_height = 500, crop_width = 600):
+        image = cv2.imread(image)
+
+        # Calculate the scaling factor to resize the image
+        scale_factor = fixed_height / image.shape[0]
+
+        # Resize the image
+        resized_image = cv2.resize(image, (int(image.shape[1] * scale_factor), fixed_height))
+
+        # Calculate the center coordinates for cropping
+        crop_height = fixed_height
+        crop_x = int((resized_image.shape[1] - crop_width) / 2)
+        crop_y = int((resized_image.shape[0] - crop_height) / 2)
+
+        # Perform the center crop
+        cropped_image = resized_image[crop_y:crop_y + crop_height, crop_x:crop_x + crop_width]
+        cv2.imwrite(name, cropped_image)
+
 
 def appStarted(app):
     app.state = "MENU"
@@ -81,10 +101,15 @@ def appStarted(app):
     app.nearLibrary = False
     app.portfolioDone = False
 
-    app.image1 = ''
-    app.image2 = ''
-    app.image3 = ''
-    app.image4 = ''
+    app.image1 = 'images/cmu.jpeg'
+    app.image2 = 'images/cmu.jpeg'
+    app.image3 = 'images/cmu.jpeg'
+    app.image4 = 'images/cmu.jpeg'
+
+    app.image1clicked = False
+    app.image2clicked = False
+    app.image3clicked = False
+    app.image4clicked = False
 
     # image1 = Image.open("default.jpg")
     # test = ImageTk.PhotoImage(image1)
@@ -220,7 +245,6 @@ def redrawAll(app, canvas):
     elif app.state == "VIEW-GALLERY":
 
         
-
         canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
         # back to menu
         canvas.create_rectangle(20, 20, 120, 60, fill='#7043EB', outline='#7043EB')
@@ -231,6 +255,17 @@ def redrawAll(app, canvas):
                                font="Helvetica 30")
         
         canvas.create_image(180,110, image=app.img, anchor=NW)
+
+        if app.image1clicked:
+            canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
+            canvas.create_image(180,110, image=center_crop(app.image1, "image1"))
+            pass
+        elif  app.image2clicked:
+            pass
+        elif app.image3clicked:
+            pass
+        elif app.image4clicked:
+            pass
 
 
 
@@ -251,11 +286,6 @@ def redrawAll(app, canvas):
         pass
 
 
-    
-    # canvas.pack()
-    # img = ImageTk.PhotoImage(Image.open("images/brownie-pixelart-2.png"))
-    # canvas.create_image(20, 20, anchor=NW, image=img)
-
 
 
 def mousePressed(app, event):
@@ -267,10 +297,26 @@ def mousePressed(app, event):
         # create button
         if event.x >= 400 and event.x <= 560 and event.y >= 420 and event.y <= 500:
             app.state = "CREATE"
-    elif app.state == "VIEW-OUTSIDE" or app.state == "VIEW-LIBRARY" or app.state == "VIEW-GALLERY":
+    elif app.state == "VIEW-OUTSIDE":
         # back to menu
         if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
             app.state = "MENU"
+    elif app.state == "VIEW-LIBRARY":
+        # back to menu
+        if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
+            app.state = "MENU"
+    elif app.state == "VIEW-GALLERY":
+        # back to menu
+        if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
+            app.state = "MENU"
+        elif event.x >= 190 and event.x <= 310 and event.y >= 240 and event.y <= 485:
+            app.image1clicked = True
+        elif event.x >= 330 and event.x <= 410 and event.y >= 317 and event.y <= 403:
+            app.image2clicked = True
+        elif event.x >= 550 and event.x <= 630 and event.y >= 251 and event.y <= 469:
+            app.image3clicked = True
+        elif event.x >= 650 and event.x <= 770 and event.y >= 240 and event.y <= 485:
+            app.image3clicked = True
     elif app.state == "CREATE":
         # back to menu
         if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:

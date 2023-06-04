@@ -106,7 +106,7 @@ class Gallery:
         output = self.change_perspective(background, user_image1, 10, 33, 130, 130, 10, 472, 130, 375) 
         output = self.change_perspective(output, user_image2, 150, 141, 230, 207, 150, 359, 230, 293)
         output = self.change_perspective(output, user_image3, 370, 207, 450, 141, 370, 293, 450, 359)
-        output = self.change_perspective(output, user_image4, 590, 33, 470, 130, 590, 472, 470, 375)
+        output = self.change_perspective(output, user_image4, 470, 130, 590, 33, 470, 375, 590, 472)
         output = self.paint_backwall(output, 240, 195, 360, 295, color = self.backwall_color) # backwall
         output = self.paint_roof_floor(output, 0, 0, 600, 0, 240, 195, 360, 195, color = self.roof_color) # roof
         output = self.paint_roof_floor(output, 240, 295, 360, 295, 0, 500, 600, 500, color = self.floor_color) # floor
