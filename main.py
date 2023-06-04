@@ -92,7 +92,25 @@ def center_crop(image_path, name, fixed_height = 500, crop_width = 600):
         cropped_image = resized_image[crop_y:crop_y + crop_height, crop_x:crop_x + crop_width]
         cv2.imwrite(name, cropped_image)
 
-
+def display_paragraph(paragraph, line_length=40):
+    lines = []
+    current_line = ""
+    
+    for line in paragraph.splitlines():
+        words = line.split()
+        for word in words:
+            if len(current_line) + len(word) + 1 <= line_length:
+                current_line += word + " "
+            else:
+                lines.append(current_line.strip())
+                current_line = word + " "
+        
+        if current_line:
+            lines.append(current_line.strip())
+            current_line = ""
+        
+    res = "\n".join(lines)
+    return res
 
 def appStarted(app):
     app.state = "MENU"
@@ -113,17 +131,17 @@ def appStarted(app):
     app.image3clicked = False
     app.image4clicked = False
 
-    app.info = ['','','','']
+    app.info = ['','','','','']
 
     app.bioClicked = False
     app.skillsClicked = False
     app.educationClicked = False
     app.experienceClicked = False
+    app.label = None
 
     app.gallery = ImageTk.PhotoImage(Image.open("default.jpg"))
     app.library = ImageTk.PhotoImage(Image.open("library.png").resize((600,500)))
     pass
-
 
 
 
@@ -143,6 +161,12 @@ def redrawAll(app, canvas):
         canvas.create_rectangle(460, 450, 500, 610, fill='#E6CA97', outline='#E6CA97')
         canvas.create_polygon(460, 450, 500, 450, 320, 300, 280, 300, fill='#E6CA97', outline='#E6CA97')
         canvas.create_polygon(460, 450, 500, 450, 680, 300, 640, 300, fill='#E6CA97', outline='#E6CA97')
+
+        # your name
+        temp = [app.info[0][0:len(app.info[0])-1],"'s Universe"]
+        concated = "".join(temp)
+        canvas.create_text(480, 150, text=concated,
+                           fill='#7043EB', font="Helvetica 30 bold")
 
         # gallery
         canvas.create_polygon(370, 300, 370, 260, 410, 260, fill='#297D50', outline='#297D50')
@@ -244,7 +268,7 @@ def redrawAll(app, canvas):
         # canvas.create_rectangle(660, 360, 740, 400, fill='#7043EB', outline='#7043EB')
         # canvas.create_rectangle(790, 360, 870, 400, fill='#7043EB', outline='#7043EB')
 
-        canvas.create_text(440, 380, text='Fill Out Form', font='Helvetica 13', fill='#f0f0f0')
+        canvas.create_text(440, 380, text='Fill Out Form', font='Helvetica 12', fill='#f0f0f0')
         # canvas.create_text(570, 380, text='File 2', font='Helvetica 13', fill='#f0f0f0')
         # canvas.create_text(700, 380, text='File 3', font='Helvetica 13', fill='#f0f0f0')
         # canvas.create_text(830, 380, text='File 4', font='Helvetica 13', fill='#f0f0f0')
@@ -294,10 +318,27 @@ def redrawAll(app, canvas):
         canvas.create_text(480, 70, text='Press Space to Return to Portfolio', fill='#7043EB',
                                font="Helvetica 30")
         
-        canvas.create_image(180,110, image=app.library, anchor=NW)
+        canvas.create_image(179,110, image=app.library, anchor=NW)
 
-        canvas.create_text(404, 213, text='Bio', fill='#5A5A5A',
-                               font="Helvetica 15 bold")
+        
+        if app.bioClicked:
+            canvas.create_rectangle(177, 107, 782, 612, fill='#A97C72', outline='#7043EB', width=5)
+            canvas.create_rectangle(277, 110, 682, 609, fill='#f0f0f0', outline='#f0f0f0')
+            canvas.create_text(480, 250, text=display_paragraph(app.info[1]), fill='#3B3A3A', font="Helvetica 15 bold")
+        elif app.skillsClicked:
+            canvas.create_rectangle(177, 107, 782, 612, fill='#A97C72', outline='#7043EB', width=5)
+            canvas.create_rectangle(277, 110, 682, 609, fill='#f0f0f0', outline='#f0f0f0')
+            canvas.create_text(480, 250, text=display_paragraph(app.info[2]), fill='#3B3A3A', font="Helvetica 15 bold")
+        elif app.educationClicked:
+            canvas.create_rectangle(177, 107, 782, 612, fill='#A97C72', outline='#7043EB', width=5)
+            canvas.create_rectangle(277, 110, 682, 609, fill='#f0f0f0', outline='#f0f0f0')
+            canvas.create_text(480, 250, text=display_paragraph(app.info[3]), fill='#3B3A3A', font="Helvetica 15 bold")
+        elif app.experienceClicked:
+            canvas.create_rectangle(177, 107, 782, 612, fill='#A97C72', outline='#7043EB', width=5)
+            canvas.create_rectangle(277, 110, 682, 609, fill='#f0f0f0', outline='#f0f0f0')
+            canvas.create_text(480, 250, text=display_paragraph(app.info[4]), fill='#3B3A3A', font="Helvetica 15 bold")
+            
+
 
     else:
         pass
@@ -327,6 +368,13 @@ def mousePressed(app, event):
         # bio
         if event.x >= 363 and event.x <= 446 and event.y >= 203 and event.y <= 223:
             app.bioClicked = True
+        elif event.x >= 625 and event.x <= 650 and event.y >= 265 and event.y <= 350:
+            app.skillsClicked = True
+        elif event.x >= 356 and event.x <= 375 and event.y >= 394 and event.y <= 475:
+            app.educationClicked = True
+        elif event.x >= 588 and event.x <= 607 and event.y >= 393 and event.y <= 473:
+            app.experienceClicked = True
+        
         
     elif app.state == "VIEW-GALLERY":
         # back to menu
@@ -372,13 +420,13 @@ def mousePressed(app, event):
 
             # Create a list to hold the text boxes
             text_boxes = []
-            formTitles = ['Bio', 'Skills', 'Education', 'Experience']
+            formTitles = ['Your Name', 'Write a Short Bio', 'Your Skills', 'Your Education', 'Your Experience']
 
             # Create multiple Text widgets for text input
-            for i in range(4):
+            for i in range(5):
                 title_label = Label(window, text=formTitles[i])
                 title_label.pack()
-                text_box = Text(window, height=10, width=60)
+                text_box = Text(window, height=7, width=60)
                 text_box.pack()
                 text_boxes.append(text_box)
 
@@ -391,9 +439,16 @@ def mousePressed(app, event):
 
 
 def keyPressed(app, event):
+    print(f"x: {event.x}, y: {event.y}\n")
     if app.state == "VIEW-LIBRARY":
         if event.key == 'Space':
-            app.state = "VIEW-OUTSIDE"
+            if not (app.bioClicked or app.skillsClicked or app.educationClicked or app.experienceClicked):
+                app.state = "VIEW-OUTSIDE"
+            else:
+                app.bioClicked = False
+                app.skillsClicked = False
+                app.educationClicked = False
+                app.experienceClicked = False
     elif app.state == "VIEW-GALLERY":
         if event.key == 'Space':
             if not (app.image1clicked or app.image2clicked or app.image3clicked or app.image4clicked):
@@ -434,14 +489,14 @@ def timerFired(app):
 
     if app.state == "VIEW-GALLERY":
         # see if user has entered their images
-        print(f"{app.image1}\n")
         if app.portfolioDone == False:
             if (app.image1 != '' and app.image2 != '' and app.image3 != '' and app.image4 != ''):
                 app.portfolioDone = True
                 g = Gallery(app.image1, app.image2, app.image3, app.image4)
                 g.cv_save_image()
                 app.gallery = ImageTk.PhotoImage(Image.open("gallery.jpg"))
-                
+    if app.state == "VIEW-LIBRARY":
+        pass
 
     if (app.player.x >= 210 and app.player.x <= 390
         and app.player.y >= 180 and app.player.y <= 320):
