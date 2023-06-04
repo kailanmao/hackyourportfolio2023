@@ -263,7 +263,10 @@ def redrawAll(app, canvas):
         canvas.create_text(170, 380, text='Upload Information', font='Helvetica 20', fill='#7043eb')
         canvas.create_text(170, 410, text='(enter your bio, skills, education, and experience)', font='Helvetica 15', fill='#f0f0f0')
         
-        canvas.create_rectangle(400, 360, 480, 400, fill='#7043EB', outline='#7043EB')
+        if app.info[0] == '':
+            canvas.create_rectangle(400, 360, 480, 400, fill='#7043EB', outline='#7043EB')
+        else:
+            canvas.create_rectangle(400, 360, 480, 400, fill='#8A5FFF', outline='#7043EB', width=2)
         # canvas.create_rectangle(530, 360, 610, 400, fill='#7043EB', outline='#7043EB')
         # canvas.create_rectangle(660, 360, 740, 400, fill='#7043EB', outline='#7043EB')
         # canvas.create_rectangle(790, 360, 870, 400, fill='#7043EB', outline='#7043EB')
@@ -299,12 +302,12 @@ def redrawAll(app, canvas):
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image3clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image1, "image3.jpg")
+            center_crop(app.image3, "image3.jpg")
             image = Image.open("image3.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image4clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image1, "image4.jpg")
+            center_crop(app.image4, "image4.jpg")
             image = Image.open("image4.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
 
@@ -347,7 +350,6 @@ def redrawAll(app, canvas):
 
 
 def mousePressed(app, event):
-    print(f"x:{event.x}, y: {event.y}\n")
     if app.state == "MENU":  
         # view button
         if event.x >= 400 and event.x <= 560 and event.y >= 320 and event.y <= 400:
@@ -387,7 +389,7 @@ def mousePressed(app, event):
         elif event.x >= 550 and event.x <= 630 and event.y >= 251 and event.y <= 469:
             app.image3clicked = True
         elif event.x >= 650 and event.x <= 770 and event.y >= 240 and event.y <= 485:
-            app.image3clicked = True
+            app.image4clicked = True
     elif app.state == "CREATE":
         # back to menu
         if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
@@ -439,7 +441,6 @@ def mousePressed(app, event):
 
 
 def keyPressed(app, event):
-    print(f"x: {event.x}, y: {event.y}\n")
     if app.state == "VIEW-LIBRARY":
         if event.key == 'Space':
             if not (app.bioClicked or app.skillsClicked or app.educationClicked or app.experienceClicked):
@@ -483,8 +484,6 @@ def keyPressed(app, event):
 
 
 def timerFired(app):
-    # print(f"x: {app.player.x}, y: {app.player.y}\n")
-    # print(f"state: {app.state}")
     app.time += 1
 
     if app.state == "VIEW-GALLERY":
