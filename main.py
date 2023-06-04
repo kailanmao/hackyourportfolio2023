@@ -62,7 +62,7 @@ def appStarted(app):
     app.state = "MENU"
     app.player = person(480, 440)
     app.time = 0
-    app.timerDelay = 300
+    app.timerDelay = 120
     app.nearGallery = False
     app.nearLibrary = False
 
@@ -311,7 +311,7 @@ def get_image():
 def timerFired(app):
     # print(f"x: {app.player.x}, y: {app.player.y}\n")
     # print(f"state: {app.state}")
-    app.time += 4
+    app.time += 1
 
     # gallery
     image1 = Image.open("default.jpg")
