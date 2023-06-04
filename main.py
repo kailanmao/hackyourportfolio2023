@@ -8,6 +8,7 @@ from gallery import *
 import cv2
 import numpy as np
 
+
 class person(object):
     def __init__(self, x, y):
         self.x = x
@@ -92,6 +93,7 @@ def center_crop(image_path, name, fixed_height = 500, crop_width = 600):
         cv2.imwrite(name, cropped_image)
 
 
+
 def appStarted(app):
     app.state = "MENU"
     app.player = person(480, 440)
@@ -111,9 +113,12 @@ def appStarted(app):
     app.image3clicked = False
     app.image4clicked = False
 
-    # image1 = Image.open("default.jpg")
-    # test = ImageTk.PhotoImage(image1)
-    # app.label1 = Label(image=test, bg='#7043EB')
+    app.info = ['','','','']
+
+    app.bioClicked = False
+    app.skillsClicked = False
+    app.educationClicked = False
+    app.experienceClicked = False
 
     app.gallery = ImageTk.PhotoImage(Image.open("default.jpg"))
     app.library = ImageTk.PhotoImage(Image.open("library.png").resize((600,500)))
@@ -124,6 +129,7 @@ def appStarted(app):
 
 
 def redrawAll(app, canvas):
+
     canvas.create_rectangle(0, 0, 960, 720, fill='#AFA2FF') # light purple
     if app.state == "VIEW-OUTSIDE":
         # back to menu
@@ -203,22 +209,22 @@ def redrawAll(app, canvas):
         canvas.create_text(170, 180, text='Upload Images', font='Helvetica 20', fill='#7043eb')
         canvas.create_text(170, 210, text='(e.g. pictures of projects, events, awards)', font='Helvetica 15', fill='#f0f0f0')
 
-        if app.image1 == '':
+        if app.image1 == 'images/cmu.jpeg':
             canvas.create_rectangle(400, 160, 480, 200, fill='#7043EB', outline='#7043EB')
         else:
             canvas.create_rectangle(400, 160, 480, 200, fill='#8A5FFF', outline='#7043EB', width=2)
         
-        if app.image2 == '':
+        if app.image2 == 'images/cmu.jpeg':
             canvas.create_rectangle(530, 160, 610, 200, fill='#7043EB', outline='#7043EB')
         else:
             canvas.create_rectangle(530, 160, 610, 200, fill='#8A5FFF', outline='#7043EB', width=2)
 
-        if app.image3 == '':
+        if app.image3 == 'images/cmu.jpeg':
             canvas.create_rectangle(660, 160, 740, 200, fill='#7043EB', outline='#7043EB')
         else:
             canvas.create_rectangle(660, 160, 740, 200, fill='#8A5FFF', outline='#7043EB', width=2)
         
-        if app.image4 == '':
+        if app.image4 == 'images/cmu.jpeg':
             canvas.create_rectangle(790, 160, 870, 200, fill='#7043EB', outline='#7043EB')
         else:
             canvas.create_rectangle(790, 160, 870, 200, fill='#8A5FFF', outline='#7043EB', width=2)
@@ -230,18 +236,18 @@ def redrawAll(app, canvas):
         canvas.create_text(830, 180, text='Image 4', font='Helvetica 13', fill='#f0f0f0')
 
         # upload files
-        canvas.create_text(170, 380, text='Upload Files', font='Helvetica 20', fill='#7043eb')
-        canvas.create_text(170, 410, text='(e.g. your resume, research, writing samples)', font='Helvetica 15', fill='#f0f0f0')
+        canvas.create_text(170, 380, text='Upload Information', font='Helvetica 20', fill='#7043eb')
+        canvas.create_text(170, 410, text='(enter your bio, skills, education, and experience)', font='Helvetica 15', fill='#f0f0f0')
         
         canvas.create_rectangle(400, 360, 480, 400, fill='#7043EB', outline='#7043EB')
-        canvas.create_rectangle(530, 360, 610, 400, fill='#7043EB', outline='#7043EB')
-        canvas.create_rectangle(660, 360, 740, 400, fill='#7043EB', outline='#7043EB')
-        canvas.create_rectangle(790, 360, 870, 400, fill='#7043EB', outline='#7043EB')
+        # canvas.create_rectangle(530, 360, 610, 400, fill='#7043EB', outline='#7043EB')
+        # canvas.create_rectangle(660, 360, 740, 400, fill='#7043EB', outline='#7043EB')
+        # canvas.create_rectangle(790, 360, 870, 400, fill='#7043EB', outline='#7043EB')
 
-        canvas.create_text(440, 380, text='File 1', font='Helvetica 13', fill='#f0f0f0')
-        canvas.create_text(570, 380, text='File 2', font='Helvetica 13', fill='#f0f0f0')
-        canvas.create_text(700, 380, text='File 3', font='Helvetica 13', fill='#f0f0f0')
-        canvas.create_text(830, 380, text='File 4', font='Helvetica 13', fill='#f0f0f0')
+        canvas.create_text(440, 380, text='Fill Out Form', font='Helvetica 13', fill='#f0f0f0')
+        # canvas.create_text(570, 380, text='File 2', font='Helvetica 13', fill='#f0f0f0')
+        # canvas.create_text(700, 380, text='File 3', font='Helvetica 13', fill='#f0f0f0')
+        # canvas.create_text(830, 380, text='File 4', font='Helvetica 13', fill='#f0f0f0')
 
     elif app.state == "VIEW-GALLERY":
 
@@ -279,8 +285,6 @@ def redrawAll(app, canvas):
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
 
         
-
-
     elif app.state == "VIEW-LIBRARY":
         canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
         # back to menu
@@ -291,6 +295,9 @@ def redrawAll(app, canvas):
                                font="Helvetica 30")
         
         canvas.create_image(180,110, image=app.library, anchor=NW)
+
+        canvas.create_text(404, 213, text='Bio', fill='#5A5A5A',
+                               font="Helvetica 15 bold")
 
     else:
         pass
@@ -316,6 +323,11 @@ def mousePressed(app, event):
         # back to menu
         if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
             app.state = "MENU"
+
+        # bio
+        if event.x >= 363 and event.x <= 446 and event.y >= 203 and event.y <= 223:
+            app.bioClicked = True
+        
     elif app.state == "VIEW-GALLERY":
         # back to menu
         if event.x >= 20 and event.x <= 120 and event.y >= 20 and event.y <= 60:
@@ -342,6 +354,39 @@ def mousePressed(app, event):
                 app.image3 = get_image()
             elif event.x >= 790 and event.x <= 870:
                 app.image4 = get_image()
+        # fill out info form
+        elif event.x >= 400 and event.x <= 480 and event.y >= 360 and event.y <= 400:
+            def handle_input():
+                for i in range(len(text_boxes)):
+                    user_input = text_boxes[i].get("1.0", END)
+                    app.info[i] = user_input
+                    # Do something with the user input
+                window.destroy()
+
+            # Create the main Tkinter window
+            window = Tk()
+            window.title("My Info")
+            window.geometry("500x700")
+
+            # Create a label for the title            
+
+            # Create a list to hold the text boxes
+            text_boxes = []
+            formTitles = ['Bio', 'Skills', 'Education', 'Experience']
+
+            # Create multiple Text widgets for text input
+            for i in range(4):
+                title_label = Label(window, text=formTitles[i])
+                title_label.pack()
+                text_box = Text(window, height=10, width=60)
+                text_box.pack()
+                text_boxes.append(text_box)
+
+            # Create a button to handle the user input
+            button = Button(window, text="Submit", command=handle_input)
+            button.pack()
+
+
 
 
 
