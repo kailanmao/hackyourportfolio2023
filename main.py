@@ -132,11 +132,11 @@ def redrawAll(app, canvas):
     elif app.state == "MENU":
         canvas.create_rectangle(175, 105, 785, 615, fill='#AFA2FF', outline='#7043EB', width=5)
 
-        canvas.create_text(485, 225, text='3D Portfolio', font="Helvetica 60 bold",
+        canvas.create_text(485, 225, text="'U'niverse", font="Helvetica 60 bold",
                            fill="#5A5A5A")
-        canvas.create_text(480, 220, text='3D Portfolio', font="Helvetica 60 bold",
+        canvas.create_text(480, 220, text="'U'niverse", font="Helvetica 60 bold",
                            fill="#f0f0f0")
-        canvas.create_text(app.width/2, 280, text='Create and explore your very own 3D portfolio!',
+        canvas.create_text(app.width/2, 280, text='Create and explore your very own portfolio!',
                            font='Helvetica 20', fill='#7043eb')
         
         # view
