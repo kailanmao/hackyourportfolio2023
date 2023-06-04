@@ -116,11 +116,9 @@ class Gallery:
         cv2.imshow('Output', self.plot_gallery())
         cv2.waitKey(0)
         cv2.destroyAllWindows()
+    def cv_save_image(self):
+        cv2.imwrite('gallery.jpg', self.plot_gallery())
 # Display the resulting image
 g = Gallery('cat.jpg', 'cat.jpg','cat.jpg', 'cat.jpg')
+g.cv_save_image()
 g.cv_display()
-# cv2.imshow('Output', g.plot_gallery())
-# cv2.waitKey(0)
-# cv2.destroyAllWindows()
-
-
