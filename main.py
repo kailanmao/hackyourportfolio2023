@@ -262,14 +262,21 @@ def redrawAll(app, canvas):
             center_crop(app.image1, "image1.jpg")
             image = Image.open("image1.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
-            # canvas.create_image(480,360, image=app.img)
-            pass
         elif  app.image2clicked:
-            pass
+            canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
+            center_crop(app.image2, "image2.jpg")
+            image = Image.open("image2.jpg")
+            canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image3clicked:
-            pass
+            canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
+            center_crop(app.image1, "image3.jpg")
+            image = Image.open("image3.jpg")
+            canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image4clicked:
-            pass
+            canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
+            center_crop(app.image1, "image4.jpg")
+            image = Image.open("image4.jpg")
+            canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
 
         
 
@@ -344,7 +351,13 @@ def keyPressed(app, event):
             app.state = "VIEW-OUTSIDE"
     elif app.state == "VIEW-GALLERY":
         if event.key == 'Space':
-            app.state = "VIEW-OUTSIDE"
+            if not (app.image1clicked or app.image2clicked or app.image3clicked or app.image4clicked):
+                app.state = "VIEW-OUTSIDE"
+            else:
+                app.image1clicked = False
+                app.image2clicked = False
+                app.image3clicked = False
+                app.image4clicked = False
     elif app.state == "VIEW-OUTSIDE":
         if event.key == "Up":
             if app.player.y > 125:
