@@ -9,6 +9,7 @@ import cv2
 import numpy as np
 
 
+# moveable character
 class person(object):
     def __init__(self, x, y):
         self.x = x
