@@ -139,8 +139,8 @@ def appStarted(app):
     app.experienceClicked = False
     app.label = None
 
-    app.gallery = ImageTk.PhotoImage(Image.open("default.jpg"))
-    app.library = ImageTk.PhotoImage(Image.open("library.png").resize((600,500)))
+    app.gallery = ImageTk.PhotoImage(Image.open("images/default.jpg"))
+    app.library = ImageTk.PhotoImage(Image.open("images/library.png").resize((600,500)))
     pass
 
 
@@ -292,23 +292,23 @@ def redrawAll(app, canvas):
 
         if app.image1clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image1, "image1.jpg")
-            image = Image.open("image1.jpg")
+            center_crop(app.image1, "images/image1.jpg")
+            image = Image.open("images/image1.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif  app.image2clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image2, "image2.jpg")
-            image = Image.open("image2.jpg")
+            center_crop(app.image2, "images/image2.jpg")
+            image = Image.open("images/image2.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image3clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image3, "image3.jpg")
-            image = Image.open("image3.jpg")
+            center_crop(app.image3, "images/image3.jpg")
+            image = Image.open("images/image3.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
         elif app.image4clicked:
             canvas.create_rectangle(177, 107, 782, 612, fill='#AFA2FF', outline='#7043EB', width=5)
-            center_crop(app.image4, "image4.jpg")
-            image = Image.open("image4.jpg")
+            center_crop(app.image4, "images/image4.jpg")
+            image = Image.open("images/image4.jpg")
             canvas.create_image(480,360, image=ImageTk.PhotoImage(image))
 
         
@@ -493,7 +493,7 @@ def timerFired(app):
                 app.portfolioDone = True
                 g = Gallery(app.image1, app.image2, app.image3, app.image4)
                 g.cv_save_image()
-                app.gallery = ImageTk.PhotoImage(Image.open("gallery.jpg"))
+                app.gallery = ImageTk.PhotoImage(Image.open("images/gallery.jpg"))
     if app.state == "VIEW-LIBRARY":
         pass
 
